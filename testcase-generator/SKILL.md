@@ -1,0 +1,72 @@
+---
+name: testcase-generator
+description: Sinh test case đầy đủ (functional, negative, boundary, security, concurrency...) từ spec/mô tả feature. Dùng khi user được assign feature mới và cần viết test case, hoặc khi user muốn rà soát bộ test case cũ xem có thiếu case nào không. Output mặc định là bảng Markdown, có tùy chọn xuất thêm file CSV để import Excel/Google Sheet.
+---
+
+# Testcase Generator
+
+## Mục tiêu
+Sinh bộ test case đầy đủ, không bỏ sót case quan trọng, dựa trên spec/mô tả feature do user cung cấp — kể cả khi spec đó chưa đầy đủ hoặc mô tả sơ sài.
+
+## Bước 1 — Kiểm tra context trước khi generate
+
+TRƯỚC KHI sinh test case, kiểm tra xem đã có đủ các thông tin sau chưa:
+- Mục đích/luồng chính của feature (user làm gì, hệ thống phản hồi gì)
+- Các field/input liên quan (nếu có form, API param...)
+- Các role/quyền liên quan (feature này ai được dùng, ai không)
+- Có ràng buộc nghiệp vụ đặc biệt nào không (giới hạn số lượng, thời gian, trạng thái...)
+
+Nếu THIẾU bất kỳ mục nào, hỏi lại user bằng câu hỏi cụ thể, ngắn gọn — KHÔNG hỏi chung chung kiểu "bạn cho tôi thêm thông tin". Ví dụ hỏi đúng: "Feature này có phân quyền theo role không, hay ai đăng nhập cũng dùng được?"
+
+Chỉ tiếp tục Bước 2 khi đã đủ thông tin tối thiểu để generate có ý nghĩa. Nếu user nói "cứ generate với thông tin hiện có", tiếp tục nhưng đánh dấu rõ trong cột Notes những case bị giới hạn do thiếu thông tin.
+
+## Bước 2 — Generate test case theo 4 nhóm tiêu chí
+
+Với MỌI feature, phải rà qua đủ 4 nhóm sau, không được bỏ qua nhóm nào:
+
+### Nhóm A — Input-based
+- Equivalence Partitioning: nhóm giá trị hợp lệ / không hợp lệ cho mỗi field
+- Boundary Value Analysis: giá trị biên (min, max, min-1, max+1, rỗng, null, quá dài)
+- Format/Type validation: sai định dạng, sai kiểu dữ liệu
+
+### Nhóm B — Business logic
+- Decision Table: khi có nhiều điều kiện kết hợp (VD: role + trạng thái → hành động)
+- State Transition: nếu object có nhiều trạng thái, test cả chuyển hợp lệ và không hợp lệ
+
+### Nhóm C — System-level (nhóm hay bị bỏ sót nhất — ưu tiên rà kỹ)
+- Permission/Role: test với từng role khác nhau
+- Concurrency: nhiều user/thao tác cùng lúc
+- Data persistence: reload, đóng mở lại, mất kết nối giữa chừng
+- Negative/Error handling: mất mạng, timeout, input độc hại cơ bản (XSS, injection)
+- Cross-browser/device nếu là web/app
+
+### Nhóm D — Priority & Type
+Mỗi case phải gắn:
+- Type: Positive / Negative / Boundary / Security / Concurrency
+- Priority: P0 (bắt buộc chạy) / P1 (nên chạy) / P2 (chạy nếu có thời gian)
+
+## Bước 3 — Format output
+
+Cột chuẩn, áp dụng cho cả Markdown và CSV:
+
+```
+ID | Feature | Title | Type | Priority | Preconditions | Steps | Test Data | Expected Result | Notes
+```
+
+Quy tắc đặt ID: `TC_<TÊN_FEATURE_VIẾT_TẮT>_<SỐ_THỨ_TỰ>` (VD: TC_LOGIN_001)
+
+Steps: đánh số rõ ràng từng bước (1. 2. 3.), không gộp nhiều hành động vào 1 dòng.
+
+Notes: dùng để đánh dấu case nào là do Claude tự suy luận thêm ngoài spec gốc (không có trong spec user cung cấp) — để user biết cần confirm lại với PM/dev trước khi đưa vào bộ chính thức.
+
+### Output mặc định: bảng Markdown
+Hiển thị trực tiếp trong chat để user xem và chỉnh sửa nhanh.
+
+### Sau khi xuất bảng Markdown, LUÔN hỏi:
+"Bạn có muốn xuất thêm file CSV để import vào Excel/Google Sheet không?"
+
+Nếu user đồng ý, tạo file .csv với đúng các cột trên, dùng dấu phẩy làm delimiter, escape đúng chuẩn CSV cho các ô có dấu phẩy/xuống dòng (đặc biệt cột Steps hay có nhiều dòng).
+
+## Ví dụ mẫu
+
+Xem file `example_output.md` đi kèm để tham khảo format hoàn chỉnh với feature "Đăng nhập bằng email/password".
