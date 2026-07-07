@@ -11,6 +11,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_USER_TARGET = Path.home() / ".claude" / "skills"
 DEFAULT_PROJECT_TARGET = ROOT / ".claude" / "skills"
+SUPPORT_DIR_NAME = ".tester-skills-support"
+
+
+def ignore_runtime_files(_src: str, names: list[str]) -> set[str]:
+    ignored = {"__pycache__"}
+    ignored.update(name for name in names if name.endswith(".pyc"))
+    return ignored
 
 
 def find_skill_dirs() -> list[Path]:
@@ -37,6 +44,24 @@ def install_skill(skill_dir: Path, target_root: Path, force: bool, dry_run: bool
         shutil.copytree(skill_dir, destination)
 
     return f"install {skill_dir.name} -> {destination}"
+
+
+def install_support_bundle(target_root: Path, force: bool, dry_run: bool) -> str:
+    destination = target_root / SUPPORT_DIR_NAME
+    if destination.exists():
+        if not force:
+            return f"skip existing {destination} (use --force to replace)"
+        if not dry_run:
+            shutil.rmtree(destination)
+
+    if not dry_run:
+        destination.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(ROOT / "scripts", destination / "scripts", ignore=ignore_runtime_files)
+        docs_dir = destination / "docs"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / "docs" / "SUPPORT_SCRIPTS.md", docs_dir / "SUPPORT_SCRIPTS.md")
+
+    return f"install support bundle -> {destination}"
 
 
 def parse_args() -> argparse.Namespace:
@@ -83,6 +108,7 @@ def main() -> int:
     print(f"Target: {target}")
     for skill_dir in skills:
         print(install_skill(skill_dir, target, args.force, args.dry_run))
+    print(install_support_bundle(target, args.force, args.dry_run))
 
     print(f"Installed {len(skills)} skills.")
     return 0

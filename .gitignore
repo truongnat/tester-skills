@@ -1,3 +1,5 @@
 artifacts/*
 !artifacts/README.md
 dist/
+__pycache__/
+*.pyc

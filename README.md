@@ -293,6 +293,22 @@ artifacts/YYYY-MM-DD/
 
 Không đưa activity của ngày khác vào daily report, trừ khi user yêu cầu report tuần hoặc report nhiều ngày.
 
+## Support scripts
+
+Repository có thêm các script hỗ trợ trong `scripts/support/` để skill xử lý file và URL theo chế độ `report trước, execute sau`.
+
+Các script hiện có:
+
+- `artifact_init.py`
+- `safe_download.py`
+- `read_excel.py`
+- `read_pdf.py`
+- `parse_openapi.py`
+- `compare_json.py`
+- `redact_sensitive.py`
+
+Xem chi tiết tại [docs/SUPPORT_SCRIPTS.md](docs/SUPPORT_SCRIPTS.md).
+
 ## Tổ chức artifact
 
 Repository dùng cấu trúc artifact theo ngày để dễ truy vết activity:

@@ -13,6 +13,13 @@ from pathlib import Path
 
 DEFAULT_REPO_ZIP = "https://github.com/truongnat/tester-skills/archive/refs/heads/main.zip"
 DEFAULT_TARGET = Path.home() / ".claude" / "skills"
+SUPPORT_DIR_NAME = ".tester-skills-support"
+
+
+def ignore_runtime_files(_src: str, names: list[str]) -> set[str]:
+    ignored = {"__pycache__"}
+    ignored.update(name for name in names if name.endswith(".pyc"))
+    return ignored
 
 
 def download(url: str, destination: Path) -> None:
@@ -60,6 +67,25 @@ def install_skill(skill_dir: Path, target_root: Path, force: bool) -> str:
     return f"install {skill_dir.name} -> {destination}"
 
 
+def install_support(repo_root: Path, target_root: Path, force: bool) -> str:
+    destination = target_root / SUPPORT_DIR_NAME
+    if destination.exists():
+        if not force:
+            return f"skip existing {destination} (use --force to replace)"
+        shutil.rmtree(destination)
+
+    destination.mkdir(parents=True, exist_ok=True)
+    scripts_src = repo_root / "scripts"
+    docs_src = repo_root / "docs" / "SUPPORT_SCRIPTS.md"
+    if scripts_src.is_dir():
+        shutil.copytree(scripts_src, destination / "scripts", ignore=ignore_runtime_files)
+    if docs_src.is_file():
+        docs_dir = destination / "docs"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(docs_src, docs_dir / "SUPPORT_SCRIPTS.md")
+    return f"install support bundle -> {destination}"
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Install tester skills from GitHub.")
     parser.add_argument("--url", default=DEFAULT_REPO_ZIP, help="Repository zip URL to install from.")
@@ -81,8 +107,11 @@ def main() -> int:
         download(args.url, archive_path)
 
         extract_dir.mkdir()
-        with zipfile.ZipFile(archive_path) as archive:
-            archive.extractall(extract_dir)
+        try:
+            with zipfile.ZipFile(archive_path) as archive:
+                archive.extractall(extract_dir)
+        except zipfile.BadZipFile as exc:
+            raise SystemExit(f"Downloaded file is not a valid zip archive: {args.url}") from exc
 
         repo_root = find_repo_root(extract_dir)
         skills = find_skill_dirs(repo_root)
@@ -94,6 +123,7 @@ def main() -> int:
         print(f"Target: {target}")
         for skill_dir in skills:
             print(install_skill(skill_dir, target, args.force))
+        print(install_support(repo_root, target, args.force))
 
     print("Restart Claude or run /reload-plugins if your client supports it.")
     return 0

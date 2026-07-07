@@ -49,6 +49,12 @@ Sau đó mở lại Claude Code. Các skill có thể gọi bằng tên trực t
 /daily-report-writer
 ```
 
+Support scripts cũng được cài kèm vào:
+
+```text
+~/.claude/skills/.tester-skills-support/
+```
+
 ## 4. Claude Desktop hoặc Claude Web: upload từ GitHub Release
 
 Claude Desktop/Web quản lý skill qua UI `Customize > Skills`. Desktop extension `.mcpb` là cơ chế cho MCP/Extensions, không phải cách cài `SKILL.md`.

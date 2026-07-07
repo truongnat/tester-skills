@@ -16,6 +16,12 @@ PLUGIN_NAME = "tester-skills-plugin"
 PLUGIN_DIR = DIST_ROOT / PLUGIN_NAME
 
 
+def ignore_runtime_files(_src: str, names: list[str]) -> set[str]:
+    ignored = {"__pycache__"}
+    ignored.update(name for name in names if name.endswith(".pyc"))
+    return ignored
+
+
 def find_skill_dirs() -> list[Path]:
     ignored = {".git", ".claude", ".claude-plugin", "artifacts", "dist", "docs", "scripts"}
     return sorted(
@@ -93,10 +99,16 @@ def main() -> int:
 
     skills_dir = PLUGIN_DIR / "skills"
     skills_dir.mkdir(parents=True, exist_ok=True)
+    scripts_dir = PLUGIN_DIR / "scripts"
     write_manifest(PLUGIN_DIR)
 
     for skill_dir in skills:
         shutil.copytree(skill_dir, skills_dir / skill_dir.name)
+
+    shutil.copytree(ROOT / "scripts", scripts_dir, ignore=ignore_runtime_files)
+    docs_dir = PLUGIN_DIR / "docs"
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ROOT / "docs" / "SUPPORT_SCRIPTS.md", docs_dir / "SUPPORT_SCRIPTS.md")
 
     readme = PLUGIN_DIR / "README.md"
     readme.write_text(
@@ -105,7 +117,8 @@ def main() -> int:
         "```bash\n"
         "claude --plugin-dir ./dist/tester-skills-plugin\n"
         "```\n\n"
-        "Then invoke skills with `/tester-skills:<skill-name>`.\n",
+        "Then invoke skills with `/tester-skills:<skill-name>`.\n\n"
+        "Support scripts are included under `scripts/support/` in the plugin bundle.\n",
         encoding="utf-8",
     )
 
