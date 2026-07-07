@@ -68,6 +68,15 @@ python3 scripts/support/parse_postman.py collection.json --report
 python3 scripts/support/parse_postman.py collection.json --execute
 ```
 
+### `postman_env_redactor.py`
+
+Che giá trị nhạy cảm trong Postman environment export trước khi lưu artifact hoặc chia sẻ cho người khác.
+
+```bash
+python3 scripts/support/postman_env_redactor.py env.json --report
+python3 scripts/support/postman_env_redactor.py env.json --execute
+```
+
 ### `compare_json.py`
 
 So sánh actual JSON và expected JSON.
@@ -75,6 +84,15 @@ So sánh actual JSON và expected JSON.
 ```bash
 python3 scripts/support/compare_json.py actual.json expected.json --report
 python3 scripts/support/compare_json.py actual.json expected.json --execute
+```
+
+### `json_to_markdown_table.py`
+
+Đổi JSON object hoặc list thành bảng Markdown dễ review trong chat hoặc artifact.
+
+```bash
+python3 scripts/support/json_to_markdown_table.py response.json --report
+python3 scripts/support/json_to_markdown_table.py response.json --execute
 ```
 
 ### `read_docx.py`
@@ -86,6 +104,15 @@ python3 scripts/support/read_docx.py spec.docx --report
 python3 scripts/support/read_docx.py spec.docx --execute
 ```
 
+### `har_summarizer.py`
+
+Tóm tắt HAR thành danh sách request, status, host và request chậm.
+
+```bash
+python3 scripts/support/har_summarizer.py session.har --report
+python3 scripts/support/har_summarizer.py session.har --execute
+```
+
 ### `artifact_index.py`
 
 Index toàn bộ artifact của đúng một ngày để dùng cho daily report hoặc review activity.
@@ -93,6 +120,15 @@ Index toàn bộ artifact của đúng một ngày để dùng cho daily report 
 ```bash
 python3 scripts/support/artifact_index.py 2026-07-07 --report
 python3 scripts/support/artifact_index.py 2026-07-07 --execute
+```
+
+### `session_timeline_builder.py`
+
+Dựng timeline file trong một artifact run để xem evidence được tạo theo thứ tự nào.
+
+```bash
+python3 scripts/support/session_timeline_builder.py artifacts/2026-07-07/bug-report-writer/101500-login-bug --report
+python3 scripts/support/session_timeline_builder.py artifacts/2026-07-07/bug-report-writer/101500-login-bug --execute
 ```
 
 ### `markdown_table_to_csv.py`
@@ -111,6 +147,15 @@ Chuẩn hóa danh sách file evidence, đoán MIME type và đếm pattern nhạ
 ```bash
 python3 scripts/support/evidence_manifest.py error.png error.har console.log --report
 python3 scripts/support/evidence_manifest.py error.png error.har console.log --execute --title checkout-failure
+```
+
+### `artifact_packager.py`
+
+Nén một artifact directory thành file `.zip` để gửi dev, lead hoặc lưu trữ.
+
+```bash
+python3 scripts/support/artifact_packager.py artifacts/2026-07-07/browser-investigator/111000-checkout-fail --report
+python3 scripts/support/artifact_packager.py artifacts/2026-07-07/browser-investigator/111000-checkout-fail --execute
 ```
 
 ### `redact_sensitive.py`

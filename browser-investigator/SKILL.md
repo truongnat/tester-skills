@@ -25,6 +25,9 @@ Skill này cần một kết nối MCP tới trình duyệt (ví dụ Claude in 
 Nếu cần lưu hoặc chuẩn hóa evidence file trước khi tổng hợp, ưu tiên chạy support script ở chế độ `--report` trước:
 
 - `evidence_manifest.py` cho screenshot, log, HAR, JSON response hoặc file evidence đi kèm
+- `har_summarizer.py` cho file `.har` để tóm method, URL, status, host và request chậm
+- `session_timeline_builder.py` để gom timeline file evidence trong một run artifact
+- `artifact_packager.py` để zip toàn bộ evidence trước khi gửi dev
 - `redact_sensitive.py` nếu evidence text có token, email, phone hoặc secret
 
 ### Bước 1 — Xác nhận hiện tượng cần điều tra
@@ -69,4 +72,6 @@ Thông tin nên đính kèm khi báo dev: [request/response cụ thể, screensh
 - Đây là công cụ hỗ trợ ĐIỀU TRA, không thay thế việc dev tự debug bằng source code. Kết quả đưa ra là giả thuyết dựa trên quan sát bên ngoài, cần nói rõ mức độ chắc chắn.
 - Nếu phát hiện thông tin nhạy cảm trong network request/response (token, password, dữ liệu cá nhân), không hiển thị nguyên văn — che hoặc rút gọn phần nhạy cảm khi báo cáo lại.
 - Nếu có nhiều file evidence, tạo manifest trước bằng `evidence_manifest.py --report` để biết file count, MIME type và dấu hiệu dữ liệu nhạy cảm trước khi đính kèm.
+- Nếu có file HAR, chạy `har_summarizer.py --report` trước để rút gọn network thành phần có ý nghĩa thay vì đọc tay cả file.
+- Trước khi bàn giao artifact cho dev, có thể chạy `session_timeline_builder.py --report` rồi `artifact_packager.py --report` để kiểm tra đủ evidence và thứ tự thời gian.
 - Kết quả từ Skill này nên được chuyển tiếp trực tiếp làm input cho `bug-report-writer` nếu xác nhận đây là bug thật.

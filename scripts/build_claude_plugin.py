@@ -38,7 +38,7 @@ def write_manifest(plugin_dir: Path) -> None:
         "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
         "name": "tester-skills",
         "displayName": "Tester Skills",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "description": (
             "A Vietnamese skill pack for manual testers covering requirements, "
             "test cases, API testing, test strategy, exploratory testing, defect "

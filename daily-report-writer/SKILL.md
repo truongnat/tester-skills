@@ -28,6 +28,8 @@ Nếu cần tổng hợp activity từ artifact đã tạo trong ngày, dùng `a
 artifacts/REPORT_DATE/*/
 ```
 
+Nếu cần bàn giao toàn bộ report artifact cho lead hoặc lưu trữ, dùng `artifact_packager.py --report` trước trên đúng thư mục daily report run.
+
 ## Quy trình
 
 ### Bước 1 — Thu thập nội dung

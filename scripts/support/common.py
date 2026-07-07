@@ -100,9 +100,11 @@ def file_summary(path: Path) -> dict[str, Any]:
             {
                 "size_bytes": stat.st_size,
                 "extension": path.suffix.lower(),
-                "sha256": sha256_file(path),
+                "kind": "directory" if path.is_dir() else "file",
             }
         )
+        if path.is_file():
+            info["sha256"] = sha256_file(path)
     return info
 
 
