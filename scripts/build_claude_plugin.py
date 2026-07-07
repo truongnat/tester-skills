@@ -29,6 +29,7 @@ def find_skill_dirs() -> list[Path]:
 
 def write_manifest(plugin_dir: Path) -> None:
     manifest = {
+        "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
         "name": "tester-skills",
         "displayName": "Tester Skills",
         "version": "1.0.0",
@@ -37,7 +38,10 @@ def write_manifest(plugin_dir: Path) -> None:
             "test cases, API testing, test strategy, exploratory testing, defect "
             "reporting, investigation, and QA reporting."
         ),
-        "author": {"name": "truongnat"},
+        "author": {
+            "name": "truongnat",
+            "email": "truongnat@users.noreply.github.com",
+        },
         "repository": "https://github.com/truongnat/tester-skills",
         "license": "MIT",
         "keywords": [
@@ -48,6 +52,7 @@ def write_manifest(plugin_dir: Path) -> None:
             "test-cases",
             "bug-reporting",
         ],
+        "skills": ["./"],
     }
     manifest_dir = plugin_dir / ".claude-plugin"
     manifest_dir.mkdir(parents=True, exist_ok=True)
@@ -63,7 +68,7 @@ def zip_dir(source_dir: Path, zip_path: Path) -> None:
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for path in sorted(source_dir.rglob("*")):
             if path.is_file():
-                archive.write(path, path.relative_to(source_dir.parent))
+                archive.write(path, path.relative_to(source_dir))
 
 
 def parse_args() -> argparse.Namespace:

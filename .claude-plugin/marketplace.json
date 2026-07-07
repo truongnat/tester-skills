@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "tester-skills",
+  "version": "1.0.0",
+  "description": "Vietnamese Claude Code skills for manual testers.",
+  "owner": {
+    "name": "truongnat",
+    "email": "truongnat@users.noreply.github.com"
+  },
+  "plugins": [
+    {
+      "name": "tester-skills",
+      "description": "A Vietnamese skill pack for manual testers covering requirements, test cases, API testing, test strategy, exploratory testing, defect reporting, investigation, and QA reporting.",
+      "version": "1.0.0",
+      "author": {
+        "name": "truongnat",
+        "email": "truongnat@users.noreply.github.com"
+      },
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

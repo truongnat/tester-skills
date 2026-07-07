@@ -152,11 +152,38 @@ Nếu muốn áp dụng dần, nên bắt đầu theo thứ tự sau:
 
 Xem hướng dẫn đầy đủ tại [docs/INSTALL_CLAUDE.md](docs/INSTALL_CLAUDE.md).
 
-### Claude.ai
+### Cài từ remote, không cần clone repo
+
+Claude Code chạy plugin trực tiếp từ GitHub Release:
+
+```bash
+claude --plugin-url https://github.com/truongnat/tester-skills/releases/latest/download/tester-skills-plugin.zip
+```
+
+Claude Code cài skill trực tiếp vào `~/.claude/skills`:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/truongnat/tester-skills/main/scripts/install_remote.py | python3 - --force
+```
+
+Claude Code cài qua marketplace remote:
+
+```bash
+claude plugin marketplace add https://github.com/truongnat/tester-skills
+claude plugin install tester-skills@tester-skills
+```
+
+Claude Desktop/Web tải zip từ:
+
+```text
+https://github.com/truongnat/tester-skills/releases/latest
+```
+
+### Claude.ai / Claude Desktop
 
 1. Vào `Customize > Skills`.
 2. Bật `Code execution and file creation` nếu hệ thống yêu cầu.
-3. Upload từng skill thành từng gói riêng.
+3. Upload từng file `<skill-name>.zip` tải từ GitHub Release.
 4. Mỗi gói skill cần có file `SKILL.md` đúng trong thư mục của skill đó.
 
 Có thể tạo sẵn file zip để upload:
