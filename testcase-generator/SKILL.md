@@ -19,7 +19,24 @@ Artifact thường gồm `testcases.md`, `testcases.csv` nếu user yêu cầu, 
 ## Mục tiêu
 Sinh bộ test case đầy đủ, không bỏ sót case quan trọng, dựa trên spec/mô tả feature do user cung cấp — kể cả khi spec đó chưa đầy đủ hoặc mô tả sơ sài.
 
+## Script hỗ trợ
+Khi input đến từ file hoặc URL, ưu tiên chạy support script ở chế độ `--report` trước:
+
+- `safe_download.py` cho file spec ở URL
+- `read_excel.py` cho `.csv` hoặc `.xlsx`
+- `read_pdf.py` cho `.pdf`
+- `redact_sensitive.py` nếu file chứa dữ liệu thật hoặc log nhạy cảm
+
 ## Bước 1 — Kiểm tra context trước khi generate
+
+Nếu input là `.csv` hoặc `.xlsx`, chạy `read_excel.py --report` trước để biết:
+- sheet nào có dữ liệu
+- header là gì
+- sample rows
+
+Nếu input là `.pdf`, chạy `read_pdf.py --report` trước để biết có trích text được không, số trang bao nhiêu và có cần hỏi user thêm format nguồn khác không.
+
+Nếu input là URL, chạy `safe_download.py --report` trước rồi mới quyết định có tải file về hay không.
 
 TRƯỚC KHI sinh test case, kiểm tra xem đã có đủ các thông tin sau chưa:
 - Mục đích/luồng chính của feature (user làm gì, hệ thống phản hồi gì)

@@ -7,6 +7,11 @@ Các script trong `scripts/support/` được thiết kế để hỗ trợ skil
 - in rõ `Session timestamp`
 - mô tả trước input, output và rủi ro
 
+Vị trí script:
+
+- Khi dùng repo local hoặc plugin bundle: `scripts/support/`
+- Khi cài skill trực tiếp vào `~/.claude/skills`: `~/.claude/skills/.tester-skills-support/scripts/support/`
+
 ## Danh sách hiện có
 
 ### `artifact_init.py`

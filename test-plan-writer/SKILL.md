@@ -19,9 +19,18 @@ Mỗi artifact phải ghi `Session timestamp`, nguồn scope, assumption, phần
 ## Mục tiêu
 Tạo test plan ngắn gọn, đủ dùng cho sprint/release, không chỉ tập trung vào một feature đơn lẻ.
 
+## Script hỗ trợ
+Nếu scope đầu vào đến từ file hoặc URL, ưu tiên chạy support script ở chế độ `--report` trước:
+
+- `safe_download.py` cho tài liệu scope ở URL
+- `read_excel.py` cho danh sách feature/test scope trong CSV/XLSX
+- `read_pdf.py` cho BRD/spec ở PDF
+
 ## Quy trình
 
 ### Bước 1 - Thu thập scope
+Nếu danh sách feature ở dạng Excel/CSV, chạy `read_excel.py --report` trước để biết sheet, header và sample rows trước khi viết test plan.
+
 Xác định:
 
 - Danh sách feature/change trong sprint hoặc release.

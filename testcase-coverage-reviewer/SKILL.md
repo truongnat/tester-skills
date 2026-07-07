@@ -19,9 +19,14 @@ Mỗi artifact phải ghi `Session timestamp`, nguồn bộ test case, ma trận
 ## Mục tiêu
 Nhận một bộ test case đã có (paste vào chat, hoặc file đính kèm), đối chiếu với ma trận tiêu chí chuẩn, và chỉ ra CHÍNH XÁC những case còn thiếu — không viết lại toàn bộ, không đánh giá chung chung "khá đầy đủ" hay "cần bổ sung thêm".
 
+## Script hỗ trợ
+Nếu bộ test case đầu vào ở dạng file, ưu tiên chạy `read_excel.py --report` trước với `.csv` hoặc `.xlsx` để xác định sheet, header và sample rows trước khi review coverage.
+
 ## Quy trình
 
 ### Bước 1 — Đọc bộ test case hiện có
+Nếu file đầu vào là `.csv` hoặc `.xlsx`, không đọc mù toàn bộ file trước. Chạy `read_excel.py --report`, xác định sheet phù hợp rồi mới dùng nội dung đó để map coverage.
+
 Xác định: feature đang test là gì, các case hiện có đang cover nhóm nào (dựa theo 4 nhóm chuẩn bên dưới).
 
 ### Bước 2 — Đối chiếu với ma trận tiêu chí chuẩn (giống testcase-generator)

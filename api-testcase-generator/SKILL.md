@@ -19,9 +19,30 @@ Mỗi output chính phải ghi `Session timestamp`, nguồn spec, assumption, en
 ## Mục tiêu
 Tạo test case API thực dụng cho tester manual từ Swagger/OpenAPI, Postman collection, curl, sample request/response hoặc mô tả endpoint.
 
+## Script hỗ trợ
+Nếu input là file hoặc URL, ưu tiên dùng support script ở chế độ `--report` trước khi đọc nội dung:
+
+- `safe_download.py` cho URL spec hoặc file đính kèm từ xa
+- `parse_openapi.py` cho OpenAPI/Swagger JSON hoặc YAML
+- `redact_sensitive.py` nếu spec hoặc example có token, API key hoặc dữ liệu thật
+
+Chỉ chạy `--execute` khi thực sự cần lưu file cục bộ hoặc tạo artifact.
+
 ## Quy trình
 
 ### Bước 1 - Đọc input và hỏi thiếu thông tin
+Nếu user đưa URL tới Swagger/OpenAPI file, chạy `safe_download.py --report` trước để kiểm tra content-type, size và output path dự kiến.
+
+Nếu user đưa file OpenAPI JSON/YAML, chạy `parse_openapi.py --report` trước để lấy:
+
+- title/version
+- danh sách endpoint
+- method/path
+- response codes
+- security scheme
+
+Sau đó mới dùng kết quả parse để sinh test case. Không đọc spec lớn theo kiểu thủ công trước khi có report parse.
+
 Xác định:
 
 - Base URL hoặc môi trường test.
@@ -67,3 +88,4 @@ Priority:
 - Không tự bịa schema nếu spec không có. Chỉ suy luận có đánh dấu `Assumption`.
 - Không sinh request chứa token thật, password thật hoặc dữ liệu cá nhân thật.
 - Nếu user cần file CSV, tạo `api-testcases.csv` trong artifact folder với cùng cột.
+- Nếu input spec chứa secret hoặc token, chạy `redact_sensitive.py --report` trước khi lưu artifact hoặc trích dẫn lại.

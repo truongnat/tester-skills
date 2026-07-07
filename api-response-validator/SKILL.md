@@ -19,6 +19,13 @@ Mỗi artifact phải ghi `Session timestamp`, response thực tế, expected/sc
 ## Mục tiêu
 Giúp tester kiểm tra response API mà không cần tự đọc JSON thủ công từng field.
 
+## Script hỗ trợ
+Nếu input là file JSON hoặc URL, ưu tiên dùng support script ở chế độ `--report` trước:
+
+- `safe_download.py` để kiểm tra URL response/spec từ xa
+- `compare_json.py` để so actual JSON và expected JSON khi cả hai đều ở dạng file
+- `redact_sensitive.py` trước khi lưu log/response có token, email, phone hoặc dữ liệu nhạy cảm
+
 ## Quy trình
 
 ### Bước 1 - Xác định nguồn so sánh
@@ -31,6 +38,8 @@ Nhận một hoặc nhiều input:
 - Status code, header hoặc error format kỳ vọng.
 
 Nếu thiếu expected/schema, hỏi user muốn so với tài liệu nào. Nếu user chỉ cần review actual response, đánh dấu kết quả là "phát hiện nghi vấn", không kết luận sai tuyệt đối.
+
+Nếu actual và expected đều là file JSON, chạy `compare_json.py --report` trước để có danh sách diff sơ bộ theo path. Sau đó dùng kết quả đó để viết phần phân tích trong output của skill, thay vì tự dò tay toàn bộ JSON.
 
 ### Bước 2 - So sánh có cấu trúc
 Kiểm tra:
@@ -70,3 +79,4 @@ Tóm tắt:
 ## Lưu ý
 - Không hiển thị nguyên văn token, password, secret hoặc dữ liệu cá nhân không cần thiết.
 - Nếu actual response quá dài, chỉ trích phần liên quan và nêu rõ đã rút gọn.
+- Nếu cần lưu response ra artifact, chạy `redact_sensitive.py --report` trước, chỉ `--execute` khi user chấp nhận bản đã redact.

@@ -19,12 +19,24 @@ Mỗi artifact phải ghi `Session timestamp`, requirement nguồn, bảng gap, 
 ## Mục tiêu
 Đọc spec thô (có thể lộn xộn, thiếu, viết tắt) và chỉ ra rõ những chỗ chưa đủ rõ để test được, TRƯỚC KHI bắt tay viết test case — tránh tình trạng viết xong rồi mới phát hiện hiểu sai.
 
+## Script hỗ trợ
+Nếu requirement đến từ URL hoặc file, ưu tiên chạy support script ở chế độ `--report` trước:
+
+- `safe_download.py` cho spec ở URL
+- `read_pdf.py` cho file PDF
+- `read_excel.py` cho file CSV/XLSX dạng rule table hoặc decision table
+- `redact_sensitive.py` nếu file có dữ liệu thật
+
 ## Nguyên tắc quan trọng
 KHÔNG tự đoán và lấp đầy chỗ thiếu bằng giả định của Claude. Nhiệm vụ của Skill này là CHỈ RA lỗ hổng, không phải lấp lỗ hổng. Việc lấp lỗ hổng là của PM/dev, hoặc của user sau khi đã hỏi họ.
 
 ## Quy trình
 
 ### Bước 1 — Đọc và phân loại nội dung spec
+Nếu spec là PDF, chạy `read_pdf.py --report` trước để biết có extract text được không và cần xử lý bao nhiêu trang.
+
+Nếu spec là CSV/XLSX, chạy `read_excel.py --report` trước để xác định cột nào là field, rule, actor hoặc status.
+
 Chia spec thành các phần: Mục đích chính, Actor/role liên quan, Input/field, Luồng xử lý (flow), Ràng buộc nghiệp vụ, Điều kiện lỗi/exception (nếu có nêu).
 
 ### Bước 2 — Rà theo checklist gap sau, đánh dấu MISSING / MƠ HỒ / MÂU THUẪN cho từng mục
