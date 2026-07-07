@@ -5,6 +5,17 @@ description: Rà soát spec/requirement trước khi viết test case để tìm
 
 # Requirement Gap Checker
 
+## Quy ước timestamp và artifact
+Ngay khi bắt đầu chạy Skill, lấy timestamp hiện tại theo timezone của user/project, format `YYYY-MM-DD HH:mm:ss Z`.
+
+Nếu có tạo file review requirement, lưu theo cấu trúc:
+
+```text
+artifacts/YYYY-MM-DD/requirement-gap-checker/HHmmss-feature-slug/
+```
+
+Mỗi artifact phải ghi `Session timestamp`, requirement nguồn, bảng gap, mức độ block test design, và câu hỏi cần hỏi PM/dev. Mọi output chính trong chat cũng phải hiển thị `Session timestamp`.
+
 ## Mục tiêu
 Đọc spec thô (có thể lộn xộn, thiếu, viết tắt) và chỉ ra rõ những chỗ chưa đủ rõ để test được, TRƯỚC KHI bắt tay viết test case — tránh tình trạng viết xong rồi mới phát hiện hiểu sai.
 
@@ -17,6 +28,12 @@ KHÔNG tự đoán và lấp đầy chỗ thiếu bằng giả định của Cla
 Chia spec thành các phần: Mục đích chính, Actor/role liên quan, Input/field, Luồng xử lý (flow), Ràng buộc nghiệp vụ, Điều kiện lỗi/exception (nếu có nêu).
 
 ### Bước 2 — Rà theo checklist gap sau, đánh dấu MISSING / MƠ HỒ / MÂU THUẪN cho từng mục
+
+Mỗi gap phải có impact:
+- `BLOCKER`: chưa thể viết test case có ý nghĩa nếu chưa làm rõ
+- `HIGH`: có thể viết một phần, nhưng dễ sai logic hoặc miss case quan trọng
+- `MEDIUM`: vẫn viết được test case chính, nhưng cần bổ sung để coverage tốt hơn
+- `LOW`: câu hỏi làm rõ nhỏ, không block test design
 
 **Về phạm vi (Scope)**
 - Mục đích chính của feature có nêu rõ "làm gì" và "để làm gì" không?
@@ -42,12 +59,17 @@ Chia spec thành các phần: Mục đích chính, Actor/role liên quan, Input/
 
 **Phần 1: Bảng gap**
 
-| Mục | Trạng thái | Vấn đề | Câu hỏi cần hỏi PM/dev |
-|---|---|---|---|
-| ... | MISSING/MƠ HỒ/MÂU THUẪN | mô tả ngắn gọn | câu hỏi cụ thể, sẵn sàng copy đi hỏi luôn |
+`Session timestamp: [YYYY-MM-DD HH:mm:ss Z]`
+
+| Mục | Trạng thái | Impact | Vấn đề | Câu hỏi cần hỏi PM/dev |
+|---|---|---|---|---|
+| ... | MISSING/MƠ HỒ/MÂU THUẪN | BLOCKER/HIGH/MEDIUM/LOW | mô tả ngắn gọn | câu hỏi cụ thể, sẵn sàng copy đi hỏi luôn |
 
 **Phần 2: Tóm tắt mức độ sẵn sàng**
-Kết luận ngắn gọn: spec đã đủ để viết test case chưa, hay cần làm rõ bao nhiêu điểm trước khi bắt tay.
+Kết luận ngắn gọn:
+- Có thể bắt đầu viết test case chưa?
+- Có bao nhiêu gap theo từng impact?
+- Top 3 câu hỏi cần hỏi trước nếu thời gian ít.
 
 ## Lưu ý khi tương tác
 Nếu user chỉ đưa một đoạn mô tả rất ngắn (1-2 câu), vẫn chạy đủ checklist trên — càng ngắn thì càng nhiều mục MISSING, đó là kết quả đúng, không phải lỗi của Skill. Không tự bịa thêm chi tiết để spec "trông đủ" hơn thực tế.

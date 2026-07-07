@@ -122,6 +122,8 @@ Khong can MCP cho phan lon skill. Tuy nhien:
 Tat ca skill trong bo nay deu theo mot so nguyen tac:
 
 - uu tien hoi thieu thong tin truoc khi tra loi
+- khi bat dau chay skill, luon ghi `Session timestamp`
+- neu co tao file output, luu theo cau truc artifact theo ngay va skill
 - output phai huong den tai lieu co the dung ngay
 - tranh prompt chung chung, thay bang checklist va buoc xu ly ro rang
 - tap trung vao cong viec thuc te cua tester manual, khong viet theo kieu ly thuyet
@@ -139,9 +141,36 @@ Neu team cua ban da co:
 
 thi chi can sua phan `Format output`, `Checklist`, hoac `Template` trong tung file `SKILL.md` cho khop quy trinh noi bo. Khong can viet lai toan bo skill.
 
+## Artifact va timestamp
+
+Moi lan chay skill nen co timestamp rieng:
+
+```text
+Session timestamp: YYYY-MM-DD HH:mm:ss Z
+```
+
+Neu skill tao file output, luu theo cau truc:
+
+```text
+artifacts/YYYY-MM-DD/<skill-name>/HHmmss-short-topic/
+```
+
+Vi du:
+
+```text
+artifacts/2026-07-07/bug-report-writer/143005-login-error/bug-report.md
+artifacts/2026-07-07/testcase-generator/150210-checkout-flow/testcases.csv
+artifacts/2026-07-07/browser-investigator/160455-payment-500/browser-investigation.md
+```
+
+Chi commit file huong dan trong `artifacts/README.md`. Output sinh ra trong qua trinh dung hang ngay nen duoc git ignore mac dinh, vi co the chua du thong tin, chua redact, hoac chi phuc vu mot lan test.
+
+Rieng `daily-report-writer` chi lay activity trong dung ngay report, bang cach doc `artifacts/YYYY-MM-DD/` cua ngay do. Khong tron activity ngay khac vao daily report tru khi user yeu cau report tuan hoac report nhieu ngay.
+
 ## Cau truc repository
 
 ```text
+artifacts/
 automation-script-builder/
 browser-investigator/
 bug-report-writer/

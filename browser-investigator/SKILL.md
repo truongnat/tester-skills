@@ -5,6 +5,17 @@ description: Tự động điều tra lỗi trên web/app bằng cách đọc ne
 
 # Browser Investigator
 
+## Quy ước timestamp và artifact
+Ngay khi bắt đầu chạy Skill, lấy timestamp hiện tại theo timezone của user/project, format `YYYY-MM-DD HH:mm:ss Z`.
+
+Nếu có tạo file điều tra, lưu theo cấu trúc:
+
+```text
+artifacts/YYYY-MM-DD/browser-investigator/HHmmss-short-issue/
+```
+
+Mỗi artifact phải ghi `Session timestamp`, URL, bước tái hiện, dữ liệu console/network/DOM đã quan sát, và phần dữ liệu đã che nếu có thông tin nhạy cảm. Mọi output chính trong chat cũng phải hiển thị `Session timestamp`.
+
 ## Điều kiện tiên quyết
 Skill này cần một kết nối MCP tới trình duyệt (ví dụ Claude in Chrome) đã được thiết lập trong phiên làm việc. Nếu không có, báo cho user và đề xuất kết nối trước, không tự suy đoán network/console log nếu không thực sự đọc được.
 
@@ -17,8 +28,9 @@ Hỏi rõ (nếu chưa rõ): hiện tượng lỗi là gì, xảy ra ở bước
 1. Điều hướng tới đúng bước gây lỗi qua trình duyệt
 2. Trong lúc thao tác, quan sát và ghi lại:
    - Console log: có error/warning nào xuất hiện không, nội dung là gì
-   - Network requests: request nào được gọi, status code trả về (200/400/500...), response body có gì bất thường
+   - Network requests: method, URL/path, status code, request payload tóm tắt, response excerpt, request ID/correlation ID nếu có
    - DOM state: phần tử nào không hiển thị đúng, class/attribute có gì lạ so với kỳ vọng
+   - Evidence: timestamp, URL hiện tại, screenshot/video/HAR/log nếu có thể lấy
 
 ### Bước 3 — Phân tích và kết luận
 Không chỉ liệt kê dữ liệu thô — phải diễn giải ý nghĩa:
@@ -31,10 +43,16 @@ Không chỉ liệt kê dữ liệu thô — phải diễn giải ý nghĩa:
 ```
 Hiện tượng: [mô tả ngắn]
 
+Session timestamp: [YYYY-MM-DD HH:mm:ss Z]
+
 Những gì quan sát được:
 - Console: [log/error cụ thể, hoặc "không có gì bất thường"]
-- Network: [request nào, status code, điểm bất thường trong response]
+- Network: [method/path/status/request payload summary/response summary/request ID nếu có]
 - DOM: [phần tử liên quan, trạng thái thực tế]
+
+Evidence table:
+| Thời điểm | URL | Step | Evidence | Ghi chú |
+|---|---|---|---|---|
 
 Giả thuyết nguyên nhân: [phân tích, đưa ra khả năng — không khẳng định chắc chắn nếu không có source]
 

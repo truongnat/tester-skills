@@ -5,6 +5,17 @@ description: Kiểm tra lại các bước tái hiện bug (reproduction steps) 
 
 # Repro Steps Verifier
 
+## Quy ước timestamp và artifact
+Ngay khi bắt đầu chạy Skill, lấy timestamp hiện tại theo timezone của user/project, format `YYYY-MM-DD HH:mm:ss Z`.
+
+Nếu có tạo file review repro steps, lưu theo cấu trúc:
+
+```text
+artifacts/YYYY-MM-DD/repro-steps-verifier/HHmmss-short-bug-title/
+```
+
+Mỗi artifact phải ghi `Session timestamp`, steps gốc, nhận xét từng bước, và steps đề xuất viết lại. Mọi output chính trong chat cũng phải hiển thị `Session timestamp`.
+
 ## Mục tiêu
 Rà soát một đoạn steps đã viết (không phải viết từ đầu như bug-report-writer) để tìm điểm mơ hồ khiến dev có thể tái hiện sai hoặc không tái hiện được.
 
@@ -18,6 +29,7 @@ Với mỗi bước trong steps, kiểm tra:
 4. **Có thiếu dữ liệu cụ thể không?** (VD: "nhập số lượng lớn" — lớn là bao nhiêu, cần con số cụ thể)
 5. **Thứ tự các bước có logic không?** (bước sau có phụ thuộc bước trước đúng thứ tự thực tế không)
 6. **Kết quả mong đợi/thực tế có đính kèm rõ ở bước nào gây ra không?** (không chỉ ghi ở cuối chung chung mà không rõ xảy ra ở bước nào)
+7. **Thông tin handoff cho dev đã đủ chưa?** Environment/build, account/role, test data, expected/actual, evidence, tần suất tái hiện
 
 ## Quy trình
 
@@ -30,9 +42,14 @@ Với mỗi bước trong steps, kiểm tra:
 ### Bước 3 — Xuất kết quả
 
 ```
+Session timestamp: [YYYY-MM-DD HH:mm:ss Z]
+
 Bước 1: [nội dung gốc] → OK / CẦN LÀM RÕ: [lý do + đề xuất viết lại]
 Bước 2: ...
 ...
+
+Thông tin handoff còn thiếu:
+- [environment/build/account/test data/evidence/frequency nếu thiếu]
 
 Steps đề xuất viết lại (nếu có bước cần chỉnh):
 1. ...

@@ -20,6 +20,22 @@
 
 Đây KHÔNG phải một Skill riêng để cài đặt. Đây là nguyên tắc thiết kế đã nhúng vào phần "Bước 1" hoặc "Checklist" của từng Skill ở trên: mọi Skill đều tự kiểm tra thiếu thông tin gì trước khi xử lý, và chủ động hỏi lại cụ thể thay vì xử lý với dữ liệu thiếu. Bạn không cần làm gì thêm cho phần này — nó đã có sẵn trong từng file.
 
+## Quy ước timestamp và artifact
+
+Khi bắt đầu chạy bất kỳ Skill nào, ghi lại `Session timestamp` theo timezone của user/project, format:
+
+```text
+YYYY-MM-DD HH:mm:ss Z
+```
+
+Nếu Skill tạo file output, lưu theo cấu trúc:
+
+```text
+artifacts/YYYY-MM-DD/<skill-name>/HHmmss-short-topic/
+```
+
+Daily report chỉ lấy activity trong đúng ngày report, tức là chỉ đọc `artifacts/YYYY-MM-DD/` của ngày đó, trừ khi user yêu cầu report tuần hoặc nhiều ngày.
+
 ## Thứ tự nên dùng thử trước
 
 1. `bug-report-writer` — dùng ngay, hiệu quả thấy rõ nhất
