@@ -25,11 +25,14 @@ Nếu scope đầu vào đến từ file hoặc URL, ưu tiên chạy support sc
 - `safe_download.py` cho tài liệu scope ở URL
 - `read_excel.py` cho danh sách feature/test scope trong CSV/XLSX
 - `read_pdf.py` cho BRD/spec ở PDF
+- `read_docx.py` cho BRD/spec ở Word `.docx`
 
 ## Quy trình
 
 ### Bước 1 - Thu thập scope
 Nếu danh sách feature ở dạng Excel/CSV, chạy `read_excel.py --report` trước để biết sheet, header và sample rows trước khi viết test plan.
+
+Nếu BRD/scope ở dạng Word `.docx`, chạy `read_docx.py --report` trước để biết cấu trúc đoạn và bảng trước khi tóm phạm vi test.
 
 Xác định:
 

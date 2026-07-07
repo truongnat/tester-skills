@@ -25,6 +25,7 @@ Khi input đến từ file hoặc URL, ưu tiên chạy support script ở chế
 - `safe_download.py` cho file spec ở URL
 - `read_excel.py` cho `.csv` hoặc `.xlsx`
 - `read_pdf.py` cho `.pdf`
+- `markdown_table_to_csv.py` nếu cần đổi bảng Markdown đã tạo sang CSV
 - `redact_sensitive.py` nếu file chứa dữ liệu thật hoặc log nhạy cảm
 
 ## Bước 1 — Kiểm tra context trước khi generate
@@ -103,6 +104,8 @@ Hiển thị trực tiếp trong chat để user xem và chỉnh sửa nhanh.
 "Bạn có muốn xuất thêm file CSV để import vào Excel/Google Sheet không?"
 
 Nếu user đồng ý, tạo file .csv với đúng các cột trên, dùng dấu phẩy làm delimiter, escape đúng chuẩn CSV cho các ô có dấu phẩy/xuống dòng (đặc biệt cột Steps hay có nhiều dòng).
+
+Nếu đã có bảng Markdown hoàn chỉnh trước đó, có thể dùng `markdown_table_to_csv.py --report` trước để kiểm tra số cột/số dòng rồi mới chạy `--execute`.
 
 ## Ví dụ mẫu
 

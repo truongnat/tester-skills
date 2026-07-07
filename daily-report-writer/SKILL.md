@@ -22,6 +22,12 @@ Nhận danh sách công việc user kể lại (có thể rời rạc, không th
 ## Script hỗ trợ
 Nếu cần tạo artifact cho chính report cuối cùng, dùng `artifact_init.py --report` trước để chốt folder output.
 
+Nếu cần tổng hợp activity từ artifact đã tạo trong ngày, dùng `artifact_index.py --report REPORT_DATE` trước để index đúng:
+
+```text
+artifacts/REPORT_DATE/*/
+```
+
 ## Quy trình
 
 ### Bước 1 — Thu thập nội dung
@@ -34,6 +40,8 @@ artifacts/REPORT_DATE/*/
 ```
 
 Không đưa activity của ngày khác vào daily report, trừ khi user nói rõ muốn report tuần hoặc muốn include ngày cụ thể khác.
+
+Nếu đọc từ artifact folder, chỉ dùng dữ liệu từ `artifact_index.py` của đúng `Report date`; mọi run ở ngày khác phải ghi riêng là bị loại.
 
 Hỏi user (nếu chưa cung cấp đủ): trong đúng ngày report đã làm những task/feature nào, có phát hiện bug gì không, có gì đang bị block/cần hỗ trợ không.
 

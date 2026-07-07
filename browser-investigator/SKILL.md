@@ -21,6 +21,12 @@ Skill này cần một kết nối MCP tới trình duyệt (ví dụ Claude in 
 
 ## Quy trình
 
+## Script hỗ trợ
+Nếu cần lưu hoặc chuẩn hóa evidence file trước khi tổng hợp, ưu tiên chạy support script ở chế độ `--report` trước:
+
+- `evidence_manifest.py` cho screenshot, log, HAR, JSON response hoặc file evidence đi kèm
+- `redact_sensitive.py` nếu evidence text có token, email, phone hoặc secret
+
 ### Bước 1 — Xác nhận hiện tượng cần điều tra
 Hỏi rõ (nếu chưa rõ): hiện tượng lỗi là gì, xảy ra ở bước nào, có tái hiện lại được ngay bây giờ không.
 
@@ -62,4 +68,5 @@ Thông tin nên đính kèm khi báo dev: [request/response cụ thể, screensh
 ## Lưu ý
 - Đây là công cụ hỗ trợ ĐIỀU TRA, không thay thế việc dev tự debug bằng source code. Kết quả đưa ra là giả thuyết dựa trên quan sát bên ngoài, cần nói rõ mức độ chắc chắn.
 - Nếu phát hiện thông tin nhạy cảm trong network request/response (token, password, dữ liệu cá nhân), không hiển thị nguyên văn — che hoặc rút gọn phần nhạy cảm khi báo cáo lại.
+- Nếu có nhiều file evidence, tạo manifest trước bằng `evidence_manifest.py --report` để biết file count, MIME type và dấu hiệu dữ liệu nhạy cảm trước khi đính kèm.
 - Kết quả từ Skill này nên được chuyển tiếp trực tiếp làm input cho `bug-report-writer` nếu xác nhận đây là bug thật.

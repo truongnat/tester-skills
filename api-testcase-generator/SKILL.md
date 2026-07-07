@@ -24,6 +24,7 @@ Nếu input là file hoặc URL, ưu tiên dùng support script ở chế độ 
 
 - `safe_download.py` cho URL spec hoặc file đính kèm từ xa
 - `parse_openapi.py` cho OpenAPI/Swagger JSON hoặc YAML
+- `parse_postman.py` cho Postman collection JSON
 - `redact_sensitive.py` nếu spec hoặc example có token, API key hoặc dữ liệu thật
 
 Chỉ chạy `--execute` khi thực sự cần lưu file cục bộ hoặc tạo artifact.
@@ -40,6 +41,14 @@ Nếu user đưa file OpenAPI JSON/YAML, chạy `parse_openapi.py --report` trư
 - method/path
 - response codes
 - security scheme
+
+Nếu user đưa Postman collection JSON, chạy `parse_postman.py --report` trước để lấy:
+
+- collection name/schema
+- request count
+- method và URL từng request
+- auth type ở collection hoặc request level
+- body mode và header count
 
 Sau đó mới dùng kết quả parse để sinh test case. Không đọc spec lớn theo kiểu thủ công trước khi có report parse.
 
