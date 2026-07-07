@@ -150,12 +150,20 @@ Nếu muốn áp dụng dần, nên bắt đầu theo thứ tự sau:
 
 ## Cách cài đặt
 
+Xem hướng dẫn đầy đủ tại [docs/INSTALL_CLAUDE.md](docs/INSTALL_CLAUDE.md).
+
 ### Claude.ai
 
 1. Vào `Customize > Skills`.
 2. Bật `Code execution and file creation` nếu hệ thống yêu cầu.
 3. Upload từng skill thành từng gói riêng.
 4. Mỗi gói skill cần có file `SKILL.md` đúng trong thư mục của skill đó.
+
+Có thể tạo sẵn file zip để upload:
+
+```bash
+make package-desktop
+```
 
 ### Claude Code
 
@@ -169,6 +177,25 @@ Ví dụ:
 
 ```bash
 .claude/skills/bug-report-writer/SKILL.md
+```
+
+Hoặc cài toàn bộ vào user-level `~/.claude/skills`:
+
+```bash
+make install-claude
+```
+
+Repository này cũng có thể load như Claude Code plugin:
+
+```bash
+claude --plugin-dir .
+```
+
+Khi load bằng plugin, skill được gọi theo namespace:
+
+```text
+/tester-skills:bug-report-writer
+/tester-skills:api-testcase-generator
 ```
 
 ## Yêu cầu môi trường

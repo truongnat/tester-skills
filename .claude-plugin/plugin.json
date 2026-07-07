@@ -1,0 +1,20 @@
+{
+  "name": "tester-skills",
+  "displayName": "Tester Skills",
+  "version": "1.0.0",
+  "description": "A Vietnamese skill pack for manual testers covering requirements, test cases, API testing, test strategy, exploratory testing, defect reporting, investigation, and QA reporting.",
+  "author": {
+    "name": "truongnat"
+  },
+  "repository": "https://github.com/truongnat/tester-skills",
+  "license": "MIT",
+  "keywords": [
+    "qa",
+    "testing",
+    "manual-testing",
+    "api-testing",
+    "test-cases",
+    "bug-reporting"
+  ],
+  "skills": "./"
+}
