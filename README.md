@@ -1,161 +1,227 @@
-# Bo Skill Cho Tester Manual
+# Bộ kỹ năng hỗ trợ Tester Manual
 
-Bo repository nay tap hop cac skill thuc dung danh cho tester manual, tap trung vao 4 nhom cong viec chinh:
+Repository này tập hợp các Claude Skill dành cho tester manual, tập trung vào những công việc lặp lại trong quá trình kiểm thử phần mềm: phân tích yêu cầu, thiết kế test case, kiểm thử API, lập kế hoạch test, exploratory testing, điều tra lỗi, viết bug report và tổng hợp báo cáo.
 
-- phan tich yeu cau va tim lo hong truoc khi test
-- thiet ke test case va ra soat do bao phu
-- dieu tra van de trong luc thuc thi test
-- viet bug report, xac minh buoc tai hien va tong hop bao cao
+Mục tiêu của bộ kỹ năng là giúp tester làm việc có cấu trúc hơn, đặt câu hỏi đúng hơn, giảm thời gian viết lại prompt, và tạo ra output có thể dùng ngay để trao đổi với dev, BA, PM hoặc QA lead.
 
-Muc tieu cua bo skill nay la giup tester lam viec nhanh hon, dat cau hoi dung hon, va tao ra output de ban giao cho dev, BA, PM hoac lead ma khong can viet prompt lai tu dau moi lan.
+## Danh sách kỹ năng
 
-## Danh sach skill
-
-| # | Skill | Muc dich chinh | Nhom | Can MCP? |
+| # | Skill | Mục đích chính | Nhóm công việc | Cần MCP? |
 |---|---|---|---|---|
-| 1 | `testcase-generator` | Sinh test case tu requirement, flow, rule, va edge case | Thiet ke test | Khong |
-| 2 | `requirement-gap-checker` | Tim diem mo ho, thieu, mau thuan trong requirement | Truoc khi test | Khong |
-| 3 | `testcase-coverage-reviewer` | Rasoat bo test case de tim lo hong coverage | Thiet ke test | Khong |
-| 4 | `sql-analyzer` | Ho tro doc va phan tich du lieu truy van khi dieu tra bug | Thuc thi va dieu tra | Co - MCP Database read-only |
-| 5 | `browser-investigator` | Dieu tra hanh vi tren trinh duyet, DOM, network, console | Thuc thi va dieu tra | Co - MCP Browser |
-| 6 | `automation-script-builder` | Ho tro tao script phu tro cho test va dieu tra | Thuc thi va dieu tra | Khong |
-| 7 | `bug-report-writer` | Chuyen ghi chu tho thanh bug report ro rang, de giao dev | Ghi nhan va bao cao | Khong |
-| 8 | `repro-steps-verifier` | Kiem tra bo buoc tai hien co du ro, dung thu tu, va tai hien duoc khong | Ghi nhan va bao cao | Khong |
-| 9 | `daily-report-writer` | Tong hop cap nhat ngay, blockers, risk, next steps | Tong hop va giao tiep | Khong |
+| 1 | `testcase-generator` | Sinh test case từ requirement, flow, rule và edge case | Thiết kế test | Không |
+| 2 | `requirement-gap-checker` | Tìm điểm thiếu, mơ hồ hoặc mâu thuẫn trong requirement | Trước khi test | Không |
+| 3 | `testcase-coverage-reviewer` | Rà soát độ phủ của bộ test case đã có | Thiết kế test | Không |
+| 4 | `api-testcase-generator` | Sinh test case API từ Swagger/OpenAPI, Postman hoặc mô tả endpoint | API testing | Không |
+| 5 | `api-response-validator` | So sánh response API thật với expected response hoặc schema | API testing | Không |
+| 6 | `test-plan-writer` | Viết test plan cho sprint, release hoặc nhóm feature | Test strategy | Không |
+| 7 | `risk-based-prioritizer` | Xếp hạng module/test case theo rủi ro khi thiếu thời gian test | Test strategy | Không |
+| 8 | `exploratory-charter-builder` | Tạo charter cho một phiên exploratory testing có định hướng | Exploratory testing | Không |
+| 9 | `edge-case-brainstormer` | Brainstorm edge case và câu hỏi "điều gì xảy ra nếu..." | Exploratory testing | Không |
+| 10 | `accessibility-checklist-runner` | Chạy checklist accessibility cơ bản cho UI | Chất lượng chuyên biệt | Không |
+| 11 | `i18n-checklist-runner` | Chạy checklist i18n/l10n cho sản phẩm đa ngôn ngữ | Chất lượng chuyên biệt | Không |
+| 12 | `sql-analyzer` | Hỗ trợ đọc, viết và giải thích truy vấn dữ liệu dạng read-only | Thực thi và điều tra | Có, MCP Database read-only |
+| 13 | `browser-investigator` | Điều tra lỗi trên trình duyệt qua console, network và DOM | Thực thi và điều tra | Có, MCP Browser |
+| 14 | `root-cause-hypothesis` | Tạo giả thuyết nguyên nhân cho bug thỉnh thoảng xảy ra hoặc khó tái hiện | Điều tra nguyên nhân | Không |
+| 15 | `automation-script-builder` | Chuyển test case thủ công thành script automation dễ hiểu | Automation cơ bản | Không |
+| 16 | `test-data-generator` | Sinh dữ liệu test giả, valid/invalid/boundary theo locale | Test data | Không |
+| 17 | `bug-report-writer` | Chuyển ghi chú lỗi rời rạc thành bug report rõ ràng | Ghi nhận và báo cáo | Không |
+| 18 | `repro-steps-verifier` | Kiểm tra độ rõ ràng của các bước tái hiện lỗi | Ghi nhận và báo cáo | Không |
+| 19 | `daily-report-writer` | Tổng hợp công việc trong ngày, blocker, rủi ro và kế hoạch tiếp theo | Tổng hợp và giao tiếp | Không |
+| 20 | `standup-notes-summarizer` | Tạo bản cập nhật standup cực ngắn để nói hoặc gửi chat | Tổng hợp và giao tiếp | Không |
 
-## Skill nay giai quyet van de gi
+## Bộ kỹ năng này giải quyết vấn đề gì?
 
-Trong thuc te, tester manual thuong gap 4 van de lap lai:
+Trong thực tế, tester manual thường gặp các vấn đề lặp lại:
 
-- requirement chua du ro nhung van bat dau test
-- test case liet ke duoc happy path nhung bo sot negative path va business rule
-- khi gap loi thi mat nhieu thoi gian tong hop thong tin cho de hieu
-- bao cao hang ngay hoac report cho lead khong dong deu ve chat luong
+- Requirement chưa rõ nhưng vẫn phải bắt đầu phân tích test.
+- Test case có happy path nhưng thiếu negative path, boundary, permission, API contract hoặc business rule.
+- Khi gặp lỗi, thông tin gửi cho dev thiếu môi trường, dữ liệu test, evidence hoặc bước tái hiện.
+- Báo cáo hằng ngày không đồng đều về cấu trúc, thiếu blocker, rủi ro hoặc next action.
+- Tester muốn mở rộng sang API testing, test strategy, exploratory testing hoặc quality checklist nhưng chưa có quy trình bắt đầu.
 
-Bo skill nay duoc viet de giam cac van de do bang cach bien nhung workflow lap lai thanh quy trinh co cau truc. Moi skill deu huong den output cu the, co the dung ngay trong cong viec hang ngay.
+Các skill trong repository này biến những việc trên thành checklist và quy trình rõ ràng. Mỗi skill hướng tới một output cụ thể, đủ gọn để dùng trong công việc hằng ngày nhưng vẫn có cấu trúc để giảm sai sót.
 
-## Khi nao nen dung tung skill
+## Khi nào dùng từng skill?
 
 `requirement-gap-checker`
-- Dung ngay khi moi nhan feature, user story, mockup, hoac rule tu BA/PM.
-- Phu hop de tim cho mo ta thieu, acceptance criteria yeu, dependency chua noi ro, va edge case chua duoc nghi toi.
+- Dùng ngay khi nhận feature, user story, mockup, API spec hoặc business rule từ BA/PM.
+- Phù hợp để tìm acceptance criteria yếu, dependency chưa rõ, role chưa đủ, luồng lỗi bị thiếu hoặc edge case chưa được nêu.
 
 `testcase-generator`
-- Dung sau khi da co input tuong doi ro.
-- Hop khi can sinh nhanh danh sach test case co cau truc de review hoac import ve template noi bo.
+- Dùng sau khi requirement đã đủ rõ để tạo test case có ý nghĩa.
+- Phù hợp khi cần sinh nhanh test case dạng bảng để review, chỉnh sửa hoặc import vào template nội bộ.
 
 `testcase-coverage-reviewer`
-- Dung khi da co mot bo test case nhung nghi rang coverage chua tot.
-- Hop truoc release, regression, hoac truoc khi giao test set cho nguoi khac.
+- Dùng khi đã có bộ test case và muốn kiểm tra còn thiếu nhóm case nào.
+- Phù hợp trước regression, trước release hoặc trước khi bàn giao test set cho người khác.
+
+`api-testcase-generator`
+- Dùng khi có Swagger/OpenAPI spec, Postman collection, curl hoặc mô tả endpoint.
+- Phù hợp để sinh case cho status code, required param, sai kiểu dữ liệu, auth, permission, schema và error handling.
+
+`api-response-validator`
+- Dùng khi có actual response JSON và expected response/schema.
+- Phù hợp để tìm field thiếu, field thừa, sai type, sai format, sai enum hoặc sai business rule trong response.
+
+`test-plan-writer`
+- Dùng ở tầm sprint, release hoặc nhóm feature, trước khi đi vào từng test case.
+- Phù hợp để xác định scope, out of scope, test approach, môi trường, dữ liệu, risk, entry criteria và exit criteria.
+
+`risk-based-prioritizer`
+- Dùng khi thời gian test không đủ và cần chọn phần nào phải test trước.
+- Phù hợp để xếp hạng module hoặc test case theo impact, tần suất dùng, độ phức tạp, lịch sử bug và dependency.
+
+`exploratory-charter-builder`
+- Dùng khi cần khám phá feature mới hoặc nghiệp vụ chưa rõ bằng session-based testing.
+- Phù hợp để tạo mục tiêu, phạm vi, timebox, test ideas và evidence cần thu thập.
+
+`edge-case-brainstormer`
+- Dùng khi cần nghĩ thêm case ngoài spec.
+- Phù hợp để brainstorm câu hỏi kiểu "điều gì xảy ra nếu..." cho workflow, form, API hoặc business rule.
+
+`accessibility-checklist-runner`
+- Dùng khi cần kiểm tra accessibility cơ bản.
+- Phù hợp cho keyboard navigation, focus state, contrast, label, alt text, screen reader text và error message.
+
+`i18n-checklist-runner`
+- Dùng khi sản phẩm có nhiều ngôn ngữ hoặc nhiều locale.
+- Phù hợp để kiểm tra bản dịch, độ dài chuỗi, format ngày giờ, tiền tệ, số, Unicode và layout khi đổi ngôn ngữ.
 
 `sql-analyzer`
-- Dung khi can xac minh data state, record mapping, status, timestamp, rule xu ly trong DB.
-- Nen chi cap quyen read-only va co quy dinh ro ve bang/schema duoc phep doc.
+- Dùng khi cần xác minh trạng thái dữ liệu, mapping record, trạng thái đơn hàng, timestamp hoặc rule xử lý trong database.
+- Chỉ nên dùng với kết nối database read-only. Skill này không được chạy câu lệnh ghi, sửa hoặc xóa dữ liệu.
 
 `browser-investigator`
-- Dung khi can dieu tra UI bug, request/response, log console, cookie, local storage, va luong thao tac tren browser.
-- Huu ich cho bug kho tai hien bang mo ta thong thuong.
+- Dùng khi cần điều tra lỗi UI, request/response, console log, cookie, local storage hoặc trạng thái DOM.
+- Hữu ích với các lỗi khó mô tả bằng mắt thường hoặc khó tái hiện nếu thiếu evidence kỹ thuật.
+
+`root-cause-hypothesis`
+- Dùng khi bug xảy ra thỉnh thoảng, khó tái hiện hoặc có nhiều nguyên nhân có thể xảy ra.
+- Phù hợp để đặt giả thuyết theo dữ liệu, môi trường, timing, permission, API, integration hoặc UI state trước khi báo dev.
 
 `automation-script-builder`
-- Dung khi can tao script nho de seed data, convert file, sinh input hang loat, parse log, hoac mo phong buoc lap lai.
-- Phu hop nhat khi chay trong moi truong co the tao va thu script ngay.
+- Dùng khi muốn chuyển một flow kiểm thử thủ công thành script Playwright hoặc Selenium.
+- Phù hợp cho tester mới học automation vì skill ưu tiên code dễ hiểu, selector ổn định, assertion rõ ràng và giải thích từng phần.
+
+`test-data-generator`
+- Dùng khi cần dữ liệu test giả cho form, API hoặc import file.
+- Phù hợp để sinh dữ liệu valid, invalid, boundary, tiếng Việt có dấu, email giả, số điện thoại VN giả và dữ liệu Unicode.
 
 `bug-report-writer`
-- Dung khi da co raw notes, screenshot, video, log, hoac mo ta loi roi rac.
-- Skill nay giup chuan hoa thanh bug report de dev co the doc va vao viec nhanh.
+- Dùng khi đã có ghi chú lỗi, screenshot, video, log hoặc mô tả ban đầu nhưng chưa thành bug report hoàn chỉnh.
+- Skill giúp chuẩn hóa title, environment, steps, expected result, actual result, frequency, severity và attachment.
 
 `repro-steps-verifier`
-- Dung truoc khi gui bug sang dev hoac truoc khi escalate.
-- Muc tieu la loai bo nhung buoc mo ho, thieu dieu kien, hoac khong tai hien on dinh.
+- Dùng trước khi gửi bug sang dev hoặc trước khi escalate.
+- Mục tiêu là phát hiện bước mơ hồ, thiếu dữ liệu test, thiếu role/account, thiếu build version hoặc thiếu evidence.
 
 `daily-report-writer`
-- Dung cuoi ngay, cuoi sprint, hoac khi can cap nhat nhanh cho lead/PM.
-- Phu hop de tong hop da test gi, phat hien gi, blocker nao dang ton, va ke hoach tiep theo.
+- Dùng cuối ngày để tổng hợp đúng activity của ngày đó.
+- Skill chỉ lấy activity trong đúng `Report date`, không trộn dữ liệu của ngày khác trừ khi user yêu cầu report tuần hoặc nhiều ngày.
 
-## Thu tu de bat dau dung thu
+`standup-notes-summarizer`
+- Dùng trước daily standup để tạo bản nói ngắn: hôm qua, hôm nay, blocker.
+- Khác `daily-report-writer` vì output ngắn hơn, dùng để nói hoặc gửi chat nhanh.
 
-Neu muon thay hieu qua som, nen thu theo thu tu nay:
+## Thứ tự nên dùng thử
+
+Nếu muốn áp dụng dần, nên bắt đầu theo thứ tự sau:
 
 1. `bug-report-writer`
 2. `requirement-gap-checker`
 3. `testcase-generator`
 4. `repro-steps-verifier`
 5. `daily-report-writer`
-6. `testcase-coverage-reviewer`
-7. `browser-investigator`
-8. `sql-analyzer`
-9. `automation-script-builder`
+6. `api-testcase-generator`
+7. `api-response-validator`
+8. `testcase-coverage-reviewer`
+9. `test-plan-writer`
+10. `risk-based-prioritizer`
+11. `exploratory-charter-builder`
+12. `edge-case-brainstormer`
+13. `browser-investigator`
+14. `root-cause-hypothesis`
+15. `test-data-generator`
+16. `sql-analyzer`
+17. `accessibility-checklist-runner`
+18. `i18n-checklist-runner`
+19. `standup-notes-summarizer`
+20. `automation-script-builder`
 
-## Cach cai dat
+## Cách cài đặt
 
-### Tren Claude.ai
+### Claude.ai
 
-1. Vao `Customize > Skills`
-2. Bat `Code execution and file creation` neu he thong yeu cau
-3. Upload tung skill thanh tung goi rieng
-4. Moi skill can co file `SKILL.md` o dung cau truc thu muc cua no
+1. Vào `Customize > Skills`.
+2. Bật `Code execution and file creation` nếu hệ thống yêu cầu.
+3. Upload từng skill thành từng gói riêng.
+4. Mỗi gói skill cần có file `SKILL.md` đúng trong thư mục của skill đó.
 
-### Tren Claude Code
+### Claude Code
 
-Copy tung thu muc skill vao:
+Copy từng thư mục skill vào:
 
 ```bash
 .claude/skills/<ten-skill>/
 ```
 
-Vi du:
+Ví dụ:
 
 ```bash
 .claude/skills/bug-report-writer/SKILL.md
 ```
 
-## Yeu cau moi truong
+## Yêu cầu môi trường
 
-Khong can MCP cho phan lon skill. Tuy nhien:
+Phần lớn skill không cần MCP. Một số skill cần môi trường bổ sung để phát huy đầy đủ:
 
-- `sql-analyzer` can MCP Database, uu tien ket noi read-only
-- `browser-investigator` can MCP Browser hoac moi truong browser automation tuong duong
-- `automation-script-builder` se huu ich hon neu duoc chay trong moi truong co the tao file va thu script
+- `sql-analyzer` cần MCP Database với quyền read-only.
+- `browser-investigator` cần MCP Browser hoặc môi trường browser automation tương đương.
+- `automation-script-builder` hữu ích hơn khi chạy trong môi trường có thể tạo file và thử script.
+- Các skill API có thể dùng Swagger/OpenAPI, Postman collection, curl hoặc JSON paste trực tiếp trong chat.
 
-## Nguyen tac thiet ke chung
+## Nguyên tắc thiết kế chung
 
-Tat ca skill trong bo nay deu theo mot so nguyen tac:
+Tất cả skill trong bộ này tuân theo các nguyên tắc sau:
 
-- uu tien hoi thieu thong tin truoc khi tra loi
-- khi bat dau chay skill, luon ghi `Session timestamp`
-- neu co tao file output, luu theo cau truc artifact theo ngay va skill
-- output phai huong den tai lieu co the dung ngay
-- tranh prompt chung chung, thay bang checklist va buoc xu ly ro rang
-- tap trung vao cong viec thuc te cua tester manual, khong viet theo kieu ly thuyet
+- Luôn kiểm tra thiếu thông tin trước khi tạo output.
+- Khi cần hỏi thêm, ưu tiên tối đa 3 câu hỏi quan trọng nhất trước.
+- Khi bắt đầu chạy skill, luôn ghi `Session timestamp`.
+- Nếu tạo file output, lưu theo cấu trúc artifact theo ngày và skill.
+- Output phải là tài liệu có thể dùng ngay, không chỉ là gợi ý chung chung.
+- Không tự bịa dữ liệu, không tự lấp khoảng trống requirement bằng giả định.
+- Tập trung vào công việc thực tế của tester manual, tránh viết theo hướng lý thuyết.
 
-Phan y tuong "context-completeness-checker" khong phai la mot skill rieng. No da duoc nhung san vao checklist hoac buoc dau cua tung skill, de skill tu phat hien du lieu con thieu va hoi lai cu the khi can.
+Ý tưởng `context-completeness-checker` không phải là một skill riêng. Nguyên tắc này đã được nhúng vào checklist hoặc bước đầu của từng skill để phát hiện dữ liệu còn thiếu và hỏi lại đúng chỗ.
 
-## Tuỳ bien theo quy trinh team
+## Tùy biến theo quy trình của team
 
-Neu team cua ban da co:
+Nếu team đã có quy chuẩn riêng, có thể chỉnh trực tiếp trong từng file `SKILL.md`:
 
-- template test case rieng
-- format bug report rieng
-- mau daily report rieng
-- quy tac severity/priority rieng
+- Template test case.
+- Template bug report.
+- Mẫu daily report.
+- Quy tắc severity và priority.
+- Cách đặt tên test case ID.
+- Checklist release hoặc regression.
 
-thi chi can sua phan `Format output`, `Checklist`, hoac `Template` trong tung file `SKILL.md` cho khop quy trinh noi bo. Khong can viet lai toan bo skill.
+Không cần viết lại toàn bộ skill. Thường chỉ cần sửa phần `Format output`, `Checklist`, `Template` hoặc quy tắc ưu tiên.
 
-## Artifact va timestamp
+## Timestamp và artifact
 
-Moi lan chay skill nen co timestamp rieng:
+Mỗi lần chạy skill nên ghi lại timestamp riêng:
 
 ```text
 Session timestamp: YYYY-MM-DD HH:mm:ss Z
 ```
 
-Neu skill tao file output, luu theo cau truc:
+Nếu skill tạo file output, lưu theo cấu trúc:
 
 ```text
 artifacts/YYYY-MM-DD/<skill-name>/HHmmss-short-topic/
 ```
 
-Vi du:
+Ví dụ:
 
 ```text
 artifacts/2026-07-07/bug-report-writer/143005-login-error/bug-report.md
@@ -163,34 +229,77 @@ artifacts/2026-07-07/testcase-generator/150210-checkout-flow/testcases.csv
 artifacts/2026-07-07/browser-investigator/160455-payment-500/browser-investigation.md
 ```
 
-Chi commit file huong dan trong `artifacts/README.md`. Output sinh ra trong qua trinh dung hang ngay nen duoc git ignore mac dinh, vi co the chua du thong tin, chua redact, hoac chi phuc vu mot lan test.
+Chỉ commit file hướng dẫn trong `artifacts/README.md`. Các output sinh ra khi dùng skill hằng ngày được git ignore mặc định vì có thể chứa dữ liệu nhạy cảm, dữ liệu tạm thời hoặc evidence chưa được redact.
 
-Rieng `daily-report-writer` chi lay activity trong dung ngay report, bang cach doc `artifacts/YYYY-MM-DD/` cua ngay do. Khong tron activity ngay khac vao daily report tru khi user yeu cau report tuan hoac report nhieu ngay.
+Riêng `daily-report-writer`, khi tạo daily report chỉ đọc activity trong đúng thư mục ngày cần báo cáo:
 
-## Cau truc repository
+```text
+artifacts/YYYY-MM-DD/
+```
+
+Không đưa activity của ngày khác vào daily report, trừ khi user yêu cầu report tuần hoặc report nhiều ngày.
+
+## Tổ chức artifact
+
+Repository dùng cấu trúc artifact theo ngày để dễ truy vết activity:
+
+```text
+artifacts/
+  YYYY-MM-DD/
+    skill-name/
+      HHmmss-short-topic/
+        output.md
+        output.csv
+        evidence.json
+        screenshots/
+        logs/
+```
+
+Quy tắc đặt thư mục:
+
+- `YYYY-MM-DD` là ngày theo timezone của user hoặc project.
+- `HHmmss` là thời điểm bắt đầu chạy skill.
+- `short-topic` là mô tả ngắn bằng chữ thường, ví dụ `login-error`, `checkout-flow`, `payment-500`.
+- Một lần chạy skill tương ứng với một thư mục riêng.
+- Không trộn nhiều feature, bug hoặc investigation khác nhau vào cùng một thư mục.
+- Evidence nhạy cảm phải được che trước khi lưu hoặc chia sẻ.
+
+## Cấu trúc repository
 
 ```text
 artifacts/
 automation-script-builder/
+accessibility-checklist-runner/
+api-response-validator/
+api-testcase-generator/
 browser-investigator/
 bug-report-writer/
 daily-report-writer/
+edge-case-brainstormer/
+exploratory-charter-builder/
+i18n-checklist-runner/
 repro-steps-verifier/
 requirement-gap-checker/
+risk-based-prioritizer/
+root-cause-hypothesis/
 sql-analyzer/
+standup-notes-summarizer/
+test-data-generator/
+test-plan-writer/
 testcase-coverage-reviewer/
 testcase-generator/
-skills-README.md
 README.md
+skills-README.md
 ```
 
-## Huong phat trien tiep
+## Hướng phát triển tiếp theo
 
-Repository nay phu hop de mo rong them:
+Repository này có thể mở rộng thêm các skill khác cho QA workflow:
 
-- skill viet test summary theo release
-- skill phan tich log backend cho tester
-- skill review traceability giua requirement va test case
-- skill ho tro test data design
+- Skill viết test summary theo release.
+- Skill phân tích log backend cho tester.
+- Skill rà soát traceability giữa requirement và test case.
+- Skill hỗ trợ thiết kế test data.
+- Skill tổng hợp release risk trước khi go-live.
 
-Neu bo skill nay duoc dung trong team, nen version hoa tung skill va ghi ro nhung thay doi ve template hoac workflow de tranh mat dong bo.
+Nếu bộ skill này được dùng trong team, nên version hóa từng skill và ghi rõ thay đổi về template, checklist hoặc workflow để tránh mất đồng bộ giữa các tester.

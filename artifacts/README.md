@@ -29,8 +29,19 @@ Suggested files:
 - `requirement-gaps.md`
 - `testcases.md`
 - `testcases.csv`
+- `api-testcases.md`
+- `api-response-validation.md`
 - `coverage-review.md`
+- `test-plan.md`
+- `risk-priority.md`
+- `exploratory-charter.md`
+- `edge-cases.md`
+- `accessibility-review.md`
+- `i18n-review.md`
 - `browser-investigation.md`
 - `sql-analysis.md`
+- `root-cause-hypothesis.md`
 - `automation.spec.ts` or `automation.py`
+- `test-data.csv` or `test-data.json`
 - `daily-report.md`
+- `standup-notes.md`
